@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /config/
+Disallow: /uploads/temp/
+Disallow: /api/
+
+Sitemap: https://customstreetwear.co/sitemap.xml

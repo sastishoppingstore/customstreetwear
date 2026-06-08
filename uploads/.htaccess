@@ -1,0 +1,14 @@
+# Block PHP execution in uploads
+<FilesMatch "\.(php|php\.|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Deny access to .htaccess
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Disable PHP engine
+php_flag engine off

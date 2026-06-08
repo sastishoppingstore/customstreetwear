@@ -1,0 +1,94 @@
+===================================================
+  CUSTOM STREETWEAR - INSTALLATION GUIDE
+  Domain: customstreetwear.co
+===================================================
+
+REQUIREMENTS:
+-------------
+- PHP 7.4 or higher
+- MySQL 5.7 or higher / MariaDB
+- Apache with mod_rewrite enabled
+- cPanel or similar shared hosting
+
+INSTALLATION STEPS:
+-------------------
+
+1. UPLOAD FILES:
+   - Upload all files to your public_html or www directory
+   - Ensure the .htaccess file is uploaded
+   - Ensure folder permissions:
+     * uploads/ and all subfolders: 755
+     * All PHP files: 644
+
+2. CREATE DATABASE:
+   - Create a new MySQL database in cPanel
+   - Create a database user with full privileges
+   - Note down: Database name, Username, Password
+
+3. IMPORT DATABASE:
+   - Import database.sql using phpMyAdmin
+   - This creates all 22 tables with seed data
+   - Default admin: admin@example.com / Admin@12345
+
+4. CONFIGURE DATABASE:
+   - Edit config/config.php
+   - Update these values:
+     define('DB_HOST', 'localhost');
+     define('DB_NAME', 'your_database_name');
+     define('DB_USER', 'your_username');
+     define('DB_PASS', 'your_password');
+
+5. UPDATE SITE URL:
+   - In config/config.php, update:
+     define('SITE_URL', 'https://yourdomain.com');
+
+6. ENABLE mod_rewrite:
+   - Ensure Apache mod_rewrite is enabled
+   - The .htaccess file handles URL rewriting
+
+7. ACCESS ADMIN:
+   - Go to https://yourdomain.com/admin/
+   - Login with: admin@example.com / Admin@12345
+   - Change password immediately after first login
+
+ADMIN PANEL FEATURES:
+---------------------
+- Dashboard with statistics
+- Manage Products (CRUD)
+- Manage Categories (CRUD)
+- Manage Subcategories
+- Manage Pages (CRUD)
+- Manage Sliders
+- Manage Blogs (CRUD)
+- Manage Testimonials
+- Manage Countries & States
+- Manage Customisation Services
+- Manage Fabrics
+- Manage Quote Enquiries
+- Manage Contact Messages
+- Site Settings (SEO, contact info, social links)
+- CSRF protection on all forms
+- Login rate limiting
+
+SECURITY NOTES:
+---------------
+- Change default admin password immediately
+- Keep PHP version updated
+- The uploads/ folder is protected by .htaccess
+- No PHP execution allowed in uploads/
+- All forms use CSRF tokens
+- PDO prepared statements prevent SQL injection
+- htmlspecialchars prevents XSS
+
+TROUBLESHOOTING:
+----------------
+- 404 errors: Check mod_rewrite is enabled
+- Database errors: Check config/config.php credentials
+- Upload errors: Check folder permissions (755)
+- Blank pages: Check PHP error logs
+
+SUPPORT:
+--------
+For support, contact info@customstreetwear.co
+
+===================================================
