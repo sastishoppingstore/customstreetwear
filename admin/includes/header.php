@@ -9,6 +9,7 @@ require_once __DIR__ . '/../../includes/functions.php';
 
 $admin = isset($_SESSION['admin_id']) ? dbFetchOne("SELECT * FROM admins WHERE id = ?", [$_SESSION['admin_id']]) : null;
 $siteName = getSetting('site_name', 'Custom Streetwear');
+$siteLogoImage = getSetting('site_logo_image', '/uploads/settings/logo.png');
 $unreadEnquiries = dbFetchOne("SELECT COUNT(*) as c FROM enquiries WHERE is_read = 0")['c'] ?? 0;
 $unreadMessages = dbFetchOne("SELECT COUNT(*) as c FROM contact_messages WHERE is_read = 0")['c'] ?? 0;
 $unreadOrders = dbFetchOne("SELECT COUNT(*) as c FROM orders WHERE order_status = 'pending'")['c'] ?? 0;
@@ -76,6 +77,14 @@ $unreadOrders = dbFetchOne("SELECT COUNT(*) as c FROM orders WHERE order_status 
             font-weight: 700;
             letter-spacing: 2px;
             color: var(--text);
+        }
+        .sidebar-logo-image {
+            display: block;
+            width: auto;
+            height: 44px;
+            max-width: 160px;
+            object-fit: contain;
+            margin: 0 auto;
         }
         .sidebar-logo span { color: var(--accent); }
         .sidebar-version { font-size: 10px; color: var(--muted); margin-top: 2px; }
@@ -238,7 +247,13 @@ $unreadOrders = dbFetchOne("SELECT COUNT(*) as c FROM orders WHERE order_status 
     <!-- Sidebar -->
     <aside class="admin-sidebar">
         <div class="sidebar-header">
-            <a href="dashboard.php" class="sidebar-logo">CUSTOM<span>.</span>SW</a>
+            <a href="dashboard.php" class="sidebar-logo">
+                <?php if ($siteLogoImage): ?>
+                <img src="<?php echo e($siteLogoImage); ?>" alt="<?php echo e($siteName); ?>" class="sidebar-logo-image">
+                <?php else: ?>
+                CUSTOM<span>.</span>SW
+                <?php endif; ?>
+            </a>
             <div class="sidebar-version">v2.0 - Admin Panel</div>
         </div>
         <nav class="sidebar-nav">
