@@ -26,8 +26,9 @@
     # API endpoints
     RewriteRule ^api/([^/]+)$ api/$1.php [L]
     
-    # Sitemap
+    # Sitemap & Robots
     RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
+    RewriteRule ^robots\.txt$ index.php?route=robots.txt [L]
     
     # Main routing - redirect everything to index.php
     RewriteCond %{REQUEST_FILENAME} !-f

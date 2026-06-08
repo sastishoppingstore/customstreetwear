@@ -16,6 +16,7 @@ $twitter = getSetting('twitter_url', '');
 $youtube = getSetting('youtube_url', '');
 $linkedin = getSetting('linkedin_url', '');
 $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
+$logoImage = getSetting('site_logo_image', '/uploads/settings/logo.png');
 ?>
     </main><!-- /#mainContent -->
 
@@ -40,7 +41,11 @@ $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
                     <!-- Company Info -->
                     <div class="footer-col footer-about">
                         <a href="/" class="footer-logo">
+                            <?php if ($logoImage): ?>
+                            <img src="<?php echo e($logoImage); ?>" alt="<?php echo e($siteName); ?>" class="footer-logo-image">
+                            <?php else: ?>
                             <span class="footer-logo-text"><?php echo e($logoText); ?></span>
+                            <?php endif; ?>
                         </a>
                         <p class="footer-desc"><?php echo e($footerText); ?></p>
                         <div class="footer-social">
@@ -144,8 +149,15 @@ $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
     <!-- Quote Modal -->
     <?php include __DIR__ . '/quote-modal.php'; ?>
 
+    <?php echo gtmBody(); ?>
+    <?php echo customBodyCode(); ?>
+    
     <!-- JavaScript -->
-    <script src="/assets/js/main.js?v=<?php echo filemtime(CSW_ROOT . '/assets/js/main.js'); ?>"></script>
+    <script src="/assets/js/main-v2.js?v=<?php echo filemtime(CSW_ROOT . '/assets/js/main-v2.js'); ?>"></script>
+    
+    <?php if (getSetting('analytics_code', '')): ?>
+    <?php echo getSetting('analytics_code'); ?>
+    <?php endif; ?>
     
     <?php echo $extraFoot ?? ''; ?>
 </body>

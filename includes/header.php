@@ -10,6 +10,12 @@ $siteEmail = getSetting('site_email', '');
 $siteAddress = getSetting('site_address', '');
 $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
 $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
+$logoImage = getSetting('site_logo_image', '/uploads/settings/logo.png');
+$favicon = getSetting('favicon', getSetting('site_favicon', '/uploads/settings/favicon.ico'));
+$appleTouchIcon = getSetting('site_apple_touch_icon', $favicon);
+$icon192 = getSetting('site_favicon_192', $favicon);
+$icon512 = getSetting('site_favicon_512', $icon192);
+$themeColor = getSetting('theme_primary_color', '#39ff14');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,8 +27,13 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
     <?php echo $metaTags ?? generateMetaTags(); ?>
     <?php echo hreflangTags(); ?>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/uploads/settings/favicon.ico">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="<?php echo e($favicon); ?>">
+    <link rel="shortcut icon" href="<?php echo e($favicon); ?>">
+    <link rel="apple-touch-icon" href="<?php echo e($appleTouchIcon); ?>">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?php echo e($icon192); ?>">
+    <link rel="icon" type="image/png" sizes="512x512" href="<?php echo e($icon512); ?>">
+    <meta name="theme-color" content="<?php echo e($themeColor); ?>">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +42,7 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo filemtime(CSW_ROOT . '/assets/css/style.css'); ?>">
+    <link rel="stylesheet" href="/assets/css/animations-v2.css?v=<?php echo filemtime(CSW_ROOT . '/assets/css/animations-v2.css'); ?>">
     
     <!-- Schema.org -->
     <script type="application/ld+json">
@@ -39,7 +51,14 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
     <script type="application/ld+json">
     <?php echo localBusinessSchema(); ?>
     </script>
+    <script type="application/ld+json">
+    <?php echo websiteSchema(); ?>
+    </script>
     
+    <?php echo gtmHead(); ?>
+    <?php echo facebookPixel(); ?>
+    <?php echo tiktokPixel(); ?>
+    <?php echo customHeadCode(); ?>
     <?php echo $extraHead ?? ''; ?>
 </head>
 <body>
@@ -71,8 +90,12 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
             <div class="header-inner">
                 <!-- Logo -->
                 <a href="/" class="logo" aria-label="<?php echo e($siteName); ?> - Home">
+                    <?php if ($logoImage): ?>
+                    <img src="<?php echo e($logoImage); ?>" alt="<?php echo e($siteName); ?>" class="logo-image">
+                    <?php else: ?>
                     <span class="logo-text"><?php echo e($logoText); ?></span>
                     <span class="logo-tagline"><?php echo e($logoTagline); ?></span>
+                    <?php endif; ?>
                 </a>
 
                 <!-- Desktop Navigation -->

@@ -8,7 +8,7 @@ header('Content-Type: application/xml; charset=UTF-8');
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url><loc><?php echo SITE_URL; ?>/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc><?php echo SITE_URL; ?>/about-us</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     <url><loc><?php echo SITE_URL; ?>/what-we-do</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -20,12 +20,13 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <url><loc><?php echo SITE_URL; ?>/contact</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
     <url><loc><?php echo SITE_URL; ?>/sports-uniforms</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc><?php echo SITE_URL; ?>/locations</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+    <url><loc><?php echo SITE_URL; ?>/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
     <url><loc><?php echo SITE_URL; ?>/sitemap</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
     
     <?php
-    $cats = dbFetchAll("SELECT slug, updated_at FROM categories WHERE status = 1");
+    $cats = dbFetchAll("SELECT name, slug, image, updated_at FROM categories WHERE status = 1");
     foreach ($cats as $c): ?>
-    <url><loc><?php echo SITE_URL; ?>/category/<?php echo $c['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($c['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc><?php echo SITE_URL; ?>/category/<?php echo e($c['slug']); ?></loc><lastmod><?php echo date('Y-m-d', strtotime($c['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.7</priority><?php if (!empty($c['image'])): ?><image:image><image:loc><?php echo SITE_URL . e($c['image']); ?></image:loc><image:title><?php echo e($c['name']); ?></image:title></image:image><?php endif; ?></url>
     <?php endforeach; ?>
     
     <?php
@@ -35,9 +36,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <?php endforeach; ?>
     
     <?php
-    $prods = dbFetchAll("SELECT slug, updated_at FROM products WHERE status = 1");
+    $prods = dbFetchAll("SELECT title, slug, main_image, updated_at FROM products WHERE status = 1");
     foreach ($prods as $p): ?>
-    <url><loc><?php echo SITE_URL; ?>/product/<?php echo $p['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($p['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+    <url><loc><?php echo SITE_URL; ?>/product/<?php echo e($p['slug']); ?></loc><lastmod><?php echo date('Y-m-d', strtotime($p['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.6</priority><?php if (!empty($p['main_image'])): ?><image:image><image:loc><?php echo SITE_URL . e($p['main_image']); ?></image:loc><image:title><?php echo e($p['title']); ?></image:title></image:image><?php endif; ?></url>
     <?php endforeach; ?>
     
     <?php

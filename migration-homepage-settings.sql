@@ -120,4 +120,26 @@ INSERT INTO `site_settings` (`setting_key`, `setting_value`, `setting_type`) VAL
 ('home_blog_count', '4', 'number'),
 ('home_video_count', '3', 'number'),
 ('home_brochure_count', '8', 'number'),
-('home_testimonial_count', '6', 'number');
+('home_testimonial_count', '6', 'number'),
+
+-- Target SEO Pages
+('home_meta_title', 'Custom Apparel Manufacturer in USA | Custom Streetwear', 'text'),
+('home_meta_desc', 'Custom Streetwear is a USA-focused custom apparel manufacturer for sports uniforms, streetwear, workwear, promotional apparel, and private label clothing with factory-direct pricing.', 'textarea'),
+('home_sports_uniforms_target', 'Custom Sports Uniforms Manufacturer in USA', 'text'),
+('home_sports_uniforms_desc', 'Custom Sports Uniforms Manufacturer in USA for teams, schools, leagues, clubs, and brands. Factory-direct custom jerseys, kits, sublimation uniforms, embroidery, and bulk team apparel shipped nationwide.', 'textarea')
+ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value), setting_type=VALUES(setting_type);
+
+INSERT INTO `home_sections` (`section_key`, `section_name`, `section_type`, `title`, `subtitle`, `description`, `visibility`, `sort_order`) VALUES
+('categories', 'Product Categories', 'categories', 'Custom Apparel Categories Built for USA Buyers', 'Our Collection', 'Explore custom sports uniforms, streetwear, workwear, promotional apparel, jackets, hoodies, and private label clothing manufactured for U.S. teams, brands, companies, and organizations.', 'visible', 2),
+('whychoose', 'Why Choose Us', 'whychoose', 'Built to Win Buyer Trust in the First Look', 'USA-Focused Manufacturing', 'A clear quote path, visible proof points, factory-direct pricing, production timelines, and nationwide delivery help serious buyers keep moving without confusion.', 'visible', 5),
+('locations', 'USA Locations', 'locations', 'Custom Apparel Manufacturer in USA', 'USA Coverage', 'We serve all 50 states with custom apparel manufacturing for local teams, businesses, schools, events, resellers, and private label brands.', 'visible', 11)
+ON DUPLICATE KEY UPDATE title=VALUES(title), subtitle=VALUES(subtitle), description=VALUES(description);
+
+-- Attach existing image assets to database records so no uploaded product/category art is idle.
+UPDATE `categories` SET `image` = CONCAT('/uploads/categories/', `slug`, '.jpg') WHERE `slug` IN (
+'hoodies','tracksuits','t-shirts','varsity-jackets','softshell-jacket','sports-uniform','promotional-products','workwear','hospital-uniform','bomber-jackets','winter-coat','leather-jackets','motorcycle-jackets'
+) AND (`image` IS NULL OR `image` = '');
+
+UPDATE `products` SET `main_image` = CONCAT('/uploads/products/', `slug`, '.jpg') WHERE `slug` IN (
+'custom-acid-washed-hoodie','custom-tie-dye-hoodie','custom-sublimation-hoodie','custom-sweatshirt','custom-tracksuit-set','custom-sublimation-t-shirt','custom-polo-shirt','custom-varsity-jacket','custom-softshell-jacket','american-football-uniform','baseball-uniform','basketball-uniform','soccer-uniform-kit','rugby-uniform','hockey-uniform','promotional-hoodie','promotional-t-shirt','mechanic-uniform','safety-coverall','medical-scrub-set','custom-leather-jacket','custom-motorcycle-jacket'
+) AND (`main_image` IS NULL OR `main_image` = '');

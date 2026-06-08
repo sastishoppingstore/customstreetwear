@@ -163,8 +163,8 @@ include __DIR__ . '/includes/header.php';
             <div class="form-group">
                 <label class="form-label">Main Image</label>
                 <input type="file" name="main_image" class="form-input" accept="image/*">
-                <?php if (!empty($editItem['main_image'])): ?>
-                <div style="margin-top: 10px;"><img src="<?php echo e($editItem['main_image']); ?>" style="width: 100px; height: 100px; object-fit: cover; border-radius: 6px;"></div>
+                <?php if ($editItem): ?>
+                <div style="margin-top: 10px;"><img src="<?php echo e($editItem['main_image'] ?: '/uploads/products/' . $editItem['slug'] . '.jpg'); ?>" onerror="this.src='/uploads/products/default.jpg';" style="width: 100px; height: 100px; object-fit: cover; border-radius: 6px;"></div>
                 <?php endif; ?>
             </div>
             <div class="form-row">
@@ -228,7 +228,7 @@ include __DIR__ . '/includes/header.php';
             <tbody>
                 <?php foreach ($items as $item): ?>
                 <tr>
-                    <td><img src="<?php echo e($item['main_image'] ?: '/uploads/products/default.jpg'); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;"></td>
+                    <td><img src="<?php echo e($item['main_image'] ?: '/uploads/products/' . $item['slug'] . '.jpg'); ?>" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" onerror="this.src='/uploads/products/default.jpg';"></td>
                     <td><?php echo e(truncate($item['title'], 40)); ?></td>
                     <td><?php echo e($item['category_name']); ?></td>
                     <td style="font-family:monospace;font-size:12px;color:var(--muted);"><?php echo e($item['sku']); ?></td>

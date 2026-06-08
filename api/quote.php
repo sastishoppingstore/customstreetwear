@@ -37,7 +37,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // Handle attachment
 $attachmentPath = null;
 if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
-    $result = uploadFile($_FILES['attachment'], 'temp', array_merge(ALLOWED_IMAGE_TYPES, ALLOWED_PDF_TYPES));
+    $result = uploadFile($_FILES['attachment'], 'temp', array_merge(ALLOWED_IMAGE_TYPES, ALLOWED_PDF_TYPES, ['zip']));
     if ($result['success']) {
         $attachmentPath = $result['path'];
     }

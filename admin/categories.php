@@ -67,7 +67,13 @@ include __DIR__ . '/includes/header.php';
                 <div class="form-group"><label class="form-label">Sort Order</label><input type="number" name="sort_order" class="form-input" value="<?php echo e($editItem['sort_order'] ?? 0); ?>"></div>
             </div>
             <div class="form-group"><label class="form-label">Description</label><textarea name="description" class="form-textarea" rows="3"><?php echo e($editItem['description'] ?? ''); ?></textarea></div>
-            <div class="form-group"><label class="form-label">Image</label><input type="file" name="image" class="form-input" accept="image/*"></div>
+            <div class="form-group">
+                <label class="form-label">Cover Image</label>
+                <input type="file" name="image" class="form-input" accept="image/*">
+                <?php if ($editItem): ?>
+                <div style="margin-top:10px;"><img src="<?php echo e($editItem['image'] ?: '/uploads/categories/' . $editItem['slug'] . '.jpg'); ?>" onerror="this.src='/uploads/default.jpg';" style="width:120px;height:90px;object-fit:cover;border-radius:6px;"></div>
+                <?php endif; ?>
+            </div>
             <div class="form-row">
                 <div class="form-group"><label class="form-label">SEO Title</label><input type="text" name="seo_title" class="form-input" value="<?php echo e($editItem['seo_title'] ?? ''); ?>"></div>
                 <div class="form-group"><label class="form-label">SEO Description</label><input type="text" name="seo_description" class="form-input" value="<?php echo e($editItem['seo_description'] ?? ''); ?>"></div>
@@ -83,7 +89,7 @@ include __DIR__ . '/includes/header.php';
             <tbody>
                 <?php foreach ($items as $item): ?>
                 <tr>
-                    <td><?php if ($item['image']): ?><img src="<?php echo e($item['image']); ?>" alt=""><?php else: ?>-<?php endif; ?></td>
+                    <td><img src="<?php echo e($item['image'] ?: '/uploads/categories/' . $item['slug'] . '.jpg'); ?>" alt="" onerror="this.src='/uploads/default.jpg';" style="width:48px;height:48px;object-fit:cover;border-radius:6px;"></td>
                     <td><?php echo e($item['name']); ?></td>
                     <td style="font-family:monospace;font-size:12px;color:var(--muted);"><?php echo e($item['slug']); ?></td>
                     <td><?php echo e($item['sort_order']); ?></td>
