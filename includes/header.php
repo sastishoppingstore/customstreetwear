@@ -19,6 +19,7 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <?php echo $metaTags ?? generateMetaTags(); ?>
+    <?php echo hreflangTags(); ?>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/uploads/settings/favicon.ico">
@@ -29,7 +30,7 @@ $logoTagline = getSetting('site_logo_tagline', 'Custom Apparel Manufacturer');
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Main CSS -->
-    <link rel="stylesheet" href="/assets/css/style.css?v=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo filemtime(CSW_ROOT . '/assets/css/style.css'); ?>">
     
     <!-- Schema.org -->
     <script type="application/ld+json">

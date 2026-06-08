@@ -30,6 +30,45 @@ function saveSeoMeta($entityType, $entityId, $data) {
 }
 
 /**
+ * Generate hreflang tags
+ */
+function hreflangTags() {
+    return '<link rel="alternate" href="' . SITE_URL . '" hreflang="en-us" />' . "\n" .
+           '<link rel="alternate" href="' . SITE_URL . '" hreflang="en" />' . "\n" .
+           '<link rel="alternate" href="' . SITE_URL . '" hreflang="x-default" />';
+}
+
+/**
+ * Generate FAQ Schema
+ */
+function faqSchema($faqs) {
+    $itemList = [];
+    foreach ($faqs as $faq) {
+        $itemList[] = [
+            "@type" => "Question",
+            "name" => $faq['question'],
+            "acceptedAnswer" => [
+                "@type" => "Answer",
+                "text" => strip_tags($faq['answer'])
+            ]
+        ];
+    }
+    $schema = [
+        "@context" => "https://schema.org",
+        "@type" => "FAQPage",
+        "mainEntity" => $itemList
+    ];
+    return json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+}
+
+/**
+ * Render breadcrumb schema in HTML (for SEO)
+ */
+function renderBreadcrumbSchema($items) {
+    echo '<script type="application/ld+json">' . breadcrumbSchema($items) . '</script>';
+}
+
+/**
  * Generate Organization Schema
  */
 function organizationSchema() {

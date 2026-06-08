@@ -29,6 +29,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <?php endforeach; ?>
     
     <?php
+    $subcats = dbFetchAll("SELECT s.slug, s.updated_at, c.slug as cat_slug FROM subcategories s JOIN categories c ON s.category_id = c.id WHERE s.status = 1");
+    foreach ($subcats as $sc): ?>
+    <url><loc><?php echo SITE_URL; ?>/category/<?php echo $sc['cat_slug']; ?>/<?php echo $sc['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($sc['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+    <?php endforeach; ?>
+    
+    <?php
     $prods = dbFetchAll("SELECT slug, updated_at FROM products WHERE status = 1");
     foreach ($prods as $p): ?>
     <url><loc><?php echo SITE_URL; ?>/product/<?php echo $p['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($p['updated_at'])); ?></lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
@@ -55,5 +61,17 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     $pages = dbFetchAll("SELECT slug, updated_at FROM pages WHERE status = 1");
     foreach ($pages as $p): ?>
     <url><loc><?php echo SITE_URL; ?>/<?php echo $p['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($p['updated_at'])); ?></lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <?php endforeach; ?>
+    
+    <?php
+    $customs = dbFetchAll("SELECT slug, updated_at FROM customisations WHERE status = 1");
+    foreach ($customs as $cu): ?>
+    <url><loc><?php echo SITE_URL; ?>/customisation/<?php echo $cu['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($cu['updated_at'])); ?></lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+    <?php endforeach; ?>
+    
+    <?php
+    $fabricsList = dbFetchAll("SELECT slug, updated_at FROM fabrics WHERE status = 1");
+    foreach ($fabricsList as $f): ?>
+    <url><loc><?php echo SITE_URL; ?>/fabric/<?php echo $f['slug']; ?></loc><lastmod><?php echo date('Y-m-d', strtotime($f['updated_at'])); ?></lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
     <?php endforeach; ?>
 </urlset>

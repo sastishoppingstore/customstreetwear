@@ -5,6 +5,21 @@ requireAdmin();
 
 $pageTitle = 'Settings';
 
+function getSettingGroup($key) {
+    if (strpos($key, 'site_') === 0 || $key === 'analytics_code' || $key === 'maintenance_mode') return 'General';
+    if (strpos($key, 'home_') === 0 || strpos($key, 'about_') === 0) return 'Homepage';
+    if (strpos($key, 'seo_') === 0 || $key === 'og_image' || $key === 'favicon') return 'SEO';
+    if (in_array($key, ['facebook_url','instagram_url','twitter_url','youtube_url','linkedin_url'])) return 'Social Media';
+    if (strpos($key, 'smtp_') === 0) return 'Email / SMTP';
+    if (strpos($key, 'recaptcha_') === 0) return 'Security';
+    if (strpos($key, 'whatsapp_') === 0) return 'WhatsApp';
+    if (strpos($key, 'quote_') === 0 || strpos($key, 'contact_') === 0) return 'Forms';
+    if (in_array($key, ['items_per_page','products_per_page','blogs_per_page','enable_registration'])) return 'Display';
+    if (strpos($key, 'footer_') === 0 || strpos($key, 'copyright_') === 0) return 'Footer';
+    if (strpos($key, 'site_logo') === 0) return 'Branding';
+    return 'Other';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     requireCsrf();
     foreach ($_POST as $key => $value) {
@@ -19,18 +34,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $settings = dbFetchAll("SELECT * FROM site_settings ORDER BY setting_key");
+$groups = [];
+foreach ($settings as $s) {
+    $g = getSettingGroup($s['setting_key']);
+    $groups[$g][] = $s;
+}
+$activeGroup = $_GET['group'] ?? array_key_first($groups);
 include __DIR__ . '/includes/header.php';
 ?>
 <div class="admin-content">
     <div class="content-header"><h1 class="content-title">Site Settings</h1></div>
     <?php echo showFlash(); ?>
+    
+    <div class="settings-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;">
+        <?php foreach ($groups as $groupName => $groupSettings): ?>
+        <a href="settings.php?group=<?php echo urlencode($groupName); ?>" class="btn <?php echo $activeGroup === $groupName ? 'btn-primary' : 'btn-outline'; ?> btn-sm"><?php echo e($groupName); ?> (<?php echo count($groupSettings); ?>)</a>
+        <?php endforeach; ?>
+    </div>
+    
     <div class="admin-card">
         <form method="POST" action="settings.php">
             <?php echo csrfField(); ?>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px;">
-                <?php foreach ($settings as $s): ?>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:20px;">
+                <?php foreach (($groups[$activeGroup] ?? []) as $s): ?>
                 <div class="form-group">
-                    <label class="form-label"><?php echo e(str_replace('_', ' ', ucfirst($s['setting_key']))); ?></label>
+                    <label class="form-label"><?php echo e(ucwords(str_replace(['home_', '_'], ['', ' '], $s['setting_key']))); ?></label>
+                    <small style="display:block;color:var(--muted);font-size:11px;margin-bottom:4px;"><?php echo e($s['setting_key']); ?></small>
                     <?php if ($s['setting_type'] === 'textarea'): ?>
                     <textarea name="setting_<?php echo e($s['setting_key']); ?>" class="form-textarea" rows="3"><?php echo e($s['setting_value']); ?></textarea>
                     <?php elseif ($s['setting_type'] === 'boolean'): ?>
@@ -46,7 +75,7 @@ include __DIR__ . '/includes/header.php';
                 </div>
                 <?php endforeach; ?>
             </div>
-            <div style="margin-top:30px;"><button type="submit" class="btn btn-primary btn-lg">Save Settings</button></div>
+            <div style="margin-top:30px;"><button type="submit" class="btn btn-primary btn-lg">Save <?php echo e($activeGroup); ?> Settings</button></div>
         </form>
     </div>
 </div>

@@ -192,6 +192,7 @@ function buildBreadcrumb($items) {
         }
     }
     $html .= '</ol></nav>';
+    $html .= '<script type="application/ld+json">' . breadcrumbSchema($items) . '</script>';
     return $html;
 }
 
