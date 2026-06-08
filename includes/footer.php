@@ -80,6 +80,7 @@ $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
                             <li><a href="/about-us">About Us</a></li>
                             <li><a href="/what-we-do">What We Do</a></li>
                             <li><a href="/how-we-do">How We Do</a></li>
+                            <li><a href="/faq">FAQ</a></li>
                             <li><a href="/customisations">Customisations</a></li>
                             <li><a href="/fabrics">Fabrics</a></li>
                             <li><a href="/sports-uniforms">Sports Uniforms</a></li>
@@ -127,8 +128,11 @@ $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
                 <div class="footer-bottom-inner">
                     <p class="copyright">&copy; <?php echo date('Y'); ?> <?php echo e($copyright); ?></p>
                     <div class="footer-bottom-links">
+                        <a href="/privacy-policy">Privacy Policy</a>
+                        <a href="/return-policy">Return Policy</a>
+                        <a href="/terms">Terms</a>
+                        <a href="/faq">FAQ</a>
                         <a href="/sitemap">Sitemap</a>
-                        <a href="/sports-uniforms">Sports Uniforms</a>
                         <a href="/locations">USA Locations</a>
                         <a href="/contact">Contact</a>
                     </div>
@@ -141,7 +145,7 @@ $logoText = getSetting('site_logo_text', 'CUSTOM STREETWEAR');
     <?php include __DIR__ . '/quote-modal.php'; ?>
 
     <!-- JavaScript -->
-    <script src="/assets/js/main.js?v=1"></script>
+    <script src="/assets/js/main.js?v=<?php echo filemtime(CSW_ROOT . '/assets/js/main.js'); ?>"></script>
     
     <?php echo $extraFoot ?? ''; ?>
 </body>

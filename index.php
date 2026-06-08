@@ -116,6 +116,29 @@ switch ($page) {
         $template = 'locations.php';
         break;
         
+    case 'faq':
+        $template = 'faq.php';
+        break;
+        
+    case 'checkout':
+        $template = 'checkout.php';
+        break;
+        
+    case 'privacy-policy':
+        $template = 'page.php';
+        $params['slug'] = 'privacy-policy';
+        break;
+        
+    case 'return-policy':
+        $template = 'page.php';
+        $params['slug'] = 'return-policy';
+        break;
+        
+    case 'terms':
+        $template = 'page.php';
+        $params['slug'] = 'terms';
+        break;
+        
     case 'sitemap':
         $template = 'sitemap.php';
         break;

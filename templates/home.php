@@ -13,18 +13,21 @@ $metaTags = generateMetaTags();
 include __DIR__ . '/../includes/header.php';
 ?>
 
-<!-- Hero Slider -->
+<!-- Hero Slider with 3D Background -->
 <section class="hero-slider" id="heroSlider">
+    <!-- 3D Canvas Background -->
+    <div id="hero3d-canvas" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></div>
+    
     <?php foreach ($sliders as $index => $slide): ?>
     <div class="hero-slide <?php echo $index === 0 ? 'active' : ''; ?>">
         <div class="hero-slide-bg" style="background-image: url('<?php echo e($slide['image']); ?>')"></div>
-        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-overlay" style="background: linear-gradient(135deg, rgba(5,5,5,0.85) 0%, rgba(5,5,5,0.4) 100%);"></div>
         <div class="container">
             <div class="hero-slide-content">
-                <span class="hero-label"><?php echo e($slide['subtitle']); ?></span>
-                <h1 class="hero-title"><?php echo nl2br(e($slide['title'])); ?></h1>
-                <p class="hero-desc"><?php echo e($slide['description']); ?></p>
-                <div class="hero-buttons">
+                <span class="hero-label" style="display:inline-block;animation:fadeInUp 0.6s ease both;"><?php echo e($slide['subtitle']); ?></span>
+                <h1 class="hero-title" style="animation:fadeInUp 0.6s ease 0.1s both;"><?php echo nl2br(e($slide['title'])); ?></h1>
+                <p class="hero-desc" style="animation:fadeInUp 0.6s ease 0.2s both;"><?php echo e($slide['description']); ?></p>
+                <div class="hero-buttons" style="animation:fadeInUp 0.6s ease 0.3s both;">
                     <a href="<?php echo e($slide['button_link']); ?>" class="btn btn-primary btn-lg"><?php echo e($slide['button_text']); ?></a>
                     <a href="/products" class="btn btn-outline btn-lg">Explore Products</a>
                 </div>
@@ -46,6 +49,10 @@ include __DIR__ . '/../includes/header.php';
         <?php endforeach; ?>
     </div>
 </section>
+
+<!-- Three.js for 3D Background -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/js/3d-background.js?v=<?php echo filemtime(CSW_ROOT . '/assets/js/3d-background.js'); ?>"></script>
 
 <!-- Product Categories -->
 <section class="section" style="background: var(--color-bg-alt);">
